@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+
+    <link rel="stylesheet" href="../AmazeUI-2.4.2/assets/css/amazeui.min.css" />
+    <link href="../css/dlstyle.css" rel="stylesheet" type="text/css">
+    <!-- <script src="../AmazeUI-2.4.2/assets/js/jquery.min.js"></script
+    <script src="../AmazeUI-2.4.2/assets/js/amazeui.min.js"></script> -->
+    <!--字体图标-->
+    <link href="../javaex/pc/css/icomoon.css" rel="stylesheet" />
+    <!--动画-->
+    <link href="../javaex/pc/css/animate.css" rel="stylesheet" />
+    <!--骨架样式-->
+    <link href="../javaex/pc/css/common.css" rel="stylesheet" />
+    <!--皮肤（缇娜）-->
+    <link href="../javaex/pc/css/skin/tina.css" rel="stylesheet" />
+    <!--jquery，不可修改版本-->
+    <script src="../javaex/pc/lib/jquery-1.7.2.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../javaex/pc/js/common.js"></script>
+    <!--核心组件-->
+    <script src="../javaex/pc/js/javaex.min.js"></script>
+    <!--表单验证-->
+    <script src="../javaex/pc/js/javaex-formVerify.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+    <div class="login-boxtitle">
+        <a href="index.html"><span style="font-size: 40px;">商城</span></a>
+    </div>
+
+    <div class="res-banner">
+        <div class="res-main">
+            <div class="login-banner-bg"><span></span><img src="../images/big.jpg" /></div>
+            <div class="login-box">
+
+                <div class="am-tabs" id="doc-my-tabs">
+                    <h3 class="title" style="margin-top:5px;">注册账号</h3>
+                    <div style="margin-bottom: 20px;">
+                        <a href="login.html" class="zcnext am-fr am-btn-default">登录</a>
+
+                    </div>
+                    <div class="am-tabs-bd" style="margin-top: -30px;">
+                        <div class="am-tab-panel am-active">
+                            <form method="post">
+                                <div class="user-phone">
+                                    <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
+                                    <input type="tel" name="phone" id="phone" placeholder="请输入手机号">
+                                </div>
+                                <div class="verification">
+                                    <label for="code"><i class="am-icon-code-fork"></i></label>
+                                    <input type="text" name="code" id="code" placeholder="请输入验证码">
+                                    <span id="dyMobileButton">获取</span></a>
+                                </div>
+
+                                <div class="user-name">
+                                    <label for="user"><i class="am-icon-user"></i></label>
+                                    <input type="text" name="username" id="username" placeholder="请输入账号">
+                                </div>
+                                <div class="user-pass">
+                                    <label for="password"><i class="am-icon-lock"></i></label>
+                                    <input type="password" name="password" id="password" placeholder="设置密码">
+                                </div>
+
+
+                                <div class="form-btn">
+                                    <input type="button" id="face" name="face" value="人脸信息采集" />
+                                </div>
+
+
+                            </form>
+
+                            <div class="login-links">
+                                <label for="reader-me">
+											<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
+										</label>
+                            </div>
+
+                            <div class="am-cf">
+                                <input id="save" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer ">
+            <div class="footer-hd ">
+                <p>
+                    <a href="# ">常州信息</a>
+                    <b>|</b>
+                    <a href="# ">商城首页</a>
+
+                    <b>|</b>
+                    <a href="# ">物流</a>
+                </p>
+            </div>
+            <div class="footer-bd ">
+                <p>
+                    <em>©常州ccit版权所有</em>
+                </p>
+            </div>
+        </div>
+
+        <canvas style="display: none" id="canvas" width="480" height="320"></canvas>
+</body>
+
+<script>
+    var imgData = "";
+
+    function toLogin() {
+        window.location.href = 'login.html';
+    }
+
+    $("#save").click(function() {
+        var phone = $("#phone").val();
+        var code = $("#code").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        if (false) {
+
+        } else {
+            $.ajax({
+                type: "post",
+                //后端需要调用的地址
+                url: "127.0.0.1:8080/ShopSystem/register",
+                dataType: "json",
+                data: {
+                    "phone": phone,
+                    "code": code,
+                    "password": password,
+                    "username": username,
+                    "imgData": imgData
+                },
+                // contentType: "json/application",
+                //设置超时
+                timeout: 10000,
+                async: true,
+                success: function(htmlVal) {
+                    // console.log(htmlVal);
+                    sessionStorage.setItem("user", JSON.stringify(htmlVal));
+                    javaex.alert({
+                        content: "注册成功",
+                        callback: "toLogin()"
+                    });
+
+                },
+                error: function(data) {},
+                //调用执行后调用的函数
+                complete: function(XMLHttpRequest, textStatus) {
+                    if (textStatus == 'timeout') {
+                        uploadAjax.abort(); //取消请求
+                        //超时提示：请求超时，请重试
+                        alert("请求超时，请重试");
+                    }
+                }
+            });
+        }
+    })
+
+
+    function getImgData() {
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+        canvas.width = 480;
+        canvas.height = 320;
+        context.drawImage(video, 0, 0, 480, 320);
+        imgData = canvas.toDataURL();
+        console.log(imgData);
+
+    }
+
+    $("#face").click(function() {
+        console.log(10);
+        javaex.confirm({
+            width: `520`,
+            title: "人脸识别",
+            content: `<video id="video" width="480" height="320" controls></video>`,
+            callback: "getImgData()",
+            confirmName: "拍摄"
+        });
+
+
+        //访问用户媒体设备的兼容方法
+        function getUserMedia(constraints, success, error) {
+            if (navigator.mediaDevices.getUserMedia) {
+                //最新的标准API
+                navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+            } else if (navigator.webkitGetUserMedia) {
+                //webkit核心浏览器
+                navigator.webkitGetUserMedia(constraints, success, error)
+            } else if (navigator.mozGetUserMedia) {
+                //firfox浏览器
+                navigator.mozGetUserMedia(constraints, success, error);
+            } else if (navigator.getUserMedia) {
+                //旧版API
+                navigator.getUserMedia(constraints, success, error);
+            }
+        }
+
+        let video = document.getElementById('video');
+        video.controls = false;
+
+        function success(stream) {
+            //兼容webkit核心浏览器
+            let CompatibleURL = window.URL || window.webkitURL;
+            //将视频流设置为video元素的源
+            console.log(stream);
+
+            //video.src = CompatibleURL.createObjectURL(stream);
+            video.srcObject = stream;
+            video.play();
+        }
+
+        function error(error) {
+            console.log(`访问用户媒体设备失败${error.name}, ${error.message}`);
+        }
+
+        if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
+            //调用用户媒体设备, 访问摄像头
+            getUserMedia({
+                video: {
+                    width: 480,
+                    height: 320
+                }
+            }, success, error);
+        } else {
+            alert('不支持访问用户媒体');
+        }
+    });
+</script>
+
+</html>
