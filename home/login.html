@@ -32,15 +32,18 @@
 			<h3 class="title">登录商城</h3>
                 <div class="login-form myform">
                     <form>
+
                         <div class="user-phone">
                                     <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-                                    <input type="tel" name="phone" id="phone" placeholder="请输入手机号">
+                                    <input type="tel" name="phone" id="userPhone" placeholder="请输入手机号">
                                 </div>
-                        <div class="user-text">
-                            <label for="text"><i class="am-icon-lock"></i></label>
-                            <input type="text" name="code" id="code" placeholder="请输入验证码">
-                        </div>
-                    </form>
+                        
+                                <div class="verification">
+                                    <label for="code"><i class="am-icon-code-fork"></i></label>
+                                    <input type="text" name="code" id="code" placeholder="请输入验证码">
+                                    <button type="button" class="btn btn-info"  id="second">点击获取验证码</button>
+                                </div>
+                     </form>
                 </div>
 
                 <div class="login-links">
@@ -71,7 +74,7 @@
             var uploadAjax = $.ajax({
                 type: "post",
                 //后端需要调用的地址
-                url: "127.0.0.1:8080/ShopSystem/loginByFace",
+                url: "http://127.0.0.1:8080/ShopSystem/loginByFace",
                 data: {
                     "imgData": imgData
                 },
@@ -166,8 +169,6 @@
             //图片上传到服务器
             //获取Canvas的编码。
 
-
-
             //下面的代码是保存canvas标签里的图片并且将其按一定的规则重命名
             var type = 'png';
 
@@ -236,46 +237,6 @@
             window.location.href = 'index.html';
         }
 
-        $("#loginByPhone").click(function() {
-            var phone = $("#phone").val();
-            var code = $("#code").val();
-            if (false) {
-
-            } else {
-                $.ajax({
-                    type: "post",
-                    //后端需要调用的地址
-                    url: "127.0.0.1:8080/ShopSystem/loginByPhone",
-                    dataType: "json",
-                    data: {
-                        "phone": phone,
-                        "code": code,
-                    },
-                    // contentType: "json/application",
-                    //设置超时
-                    timeout: 10000,
-                    async: true,
-                    success: function(htmlVal) {
-                        // console.log(htmlVal);
-                        sessionStorage.setItem("user", JSON.stringify(htmlVal));
-                        javaex.alert({
-                            content: "登录成功",
-                            callback: "toIndex()"
-                        });
-
-                    },
-                    error: function(data) {},
-                    //调用执行后调用的函数
-                    complete: function(XMLHttpRequest, textStatus) {
-                        if (textStatus == 'timeout') {
-                            uploadAjax.abort(); //取消请求
-                            //超时提示：请求超时，请重试
-                            alert("请求超时，请重试");
-                        }
-                    }
-                });
-            }
-        });
         $("#loginByUsername").click(function() {
             var username = $("#username").val();
             var password = $("#password").val();
@@ -285,7 +246,7 @@
                 $.ajax({
                     type: "post",
                     //后端需要调用的地址
-                    url: "127.0.0.1:8080/ShopSystem/loginByUsername",
+                    url: "http://127.0.0.1:8080/ShopSystem/loginByUsername",
                     dataType: "json",
                     data: {
                         "username": username,
@@ -317,6 +278,7 @@
             }
         })
     </script>
+
 </head>
 
 <body>
@@ -333,26 +295,26 @@
                 <h3 class="title">登录商城</h3>
                 <div class="login-form myform">
                     <form>
-                        <div class="user-name">
-                            <label for="user"><i class="am-icon-user"></i></label>
-                            <input type="text" name="" id="username" placeholder="用户名">
+
+                        <div class="user-phone">
+                            <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
+                            <input type="tel" name="phone" id="userPhone" placeholder="请输入手机号">
                         </div>
-                        <div class="user-pass">
-                            <label for="password"><i class="am-icon-lock"></i></label>
-                            <input type="password" name="" id="password" placeholder="请输入密码">
+
+                        <div class="verification">
+                            <label for="code"><i class="am-icon-code-fork"></i></label>
+                            <input type="text" name="code" id="code" placeholder="请输入验证码">
+                            <button type="button" class="btn btn-info" id="getYzm">点击获取验证码</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="login-links">
-
-                    <a href="#" class="am-fr">忘记密码</a>
                     <a href="register.html" class="zcnext am-fr am-btn-default">注册</a>
-                    <br />
+                    <br/>
                 </div>
-
                 <div class="am-cf">
-                    <input type="submit" name="" id="loginByUsername" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+                    <input type="button" id="loginByPhone" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
                 </div>
                 <span onclick="usernameLogin()" id="s1">账号登录</span>
                 <span>|</span>
@@ -384,6 +346,72 @@
     </div>
 
     <canvas style="display: none" id="canvas" width="480" height="320"></canvas>
+
 </body>
+<script type="text/javascript">
+    $("#getYzm").click(function() {
+        sendyzm($("#getYzm"));
+    });
+    //用ajax提交到后台的发送短信接口
+    function sendyzm(obj) {
+        var phone = $("#userPhone").val();
+        var result = isPhoneNum();
+        if (result) {
+            $.ajax({
+                url: "http://127.0.0.1:8080/ShopSystem/sendYzm",
+                data: {
+                    "phone": phone
+                },
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function(res) {
+                    debugger;
+                    if (res) {
+                        alert("验证码发送成功");
+                    } else {
+
+                    }
+                },
+                error: function() {
+                    alert("验证码发送失败");
+                }
+            })
+            setTime(obj); //开始倒计时
+        }
+    }
+
+    //60s倒计时实现逻辑
+    var countdown = 60;
+
+    function setTime(obj) {
+        if (countdown == 0) {
+            obj.prop('disabled', false);
+            obj.text("点击获取验证码");
+            countdown = 60; //60秒过后button上的文字初始化,计时器初始化;
+            return;
+        } else {
+            obj.prop('disabled', true);
+            obj.text("(" + countdown + "s)后重新发送");
+            countdown--;
+        }
+        setTimeout(function() {
+                setTime(obj)
+            }, 1000) //每1000毫秒执行一次
+    }
+
+
+    //校验手机号是否合法
+    function isPhoneNum() {
+        var phonenum = $("#userPhone").val();
+        if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
+            alert('请输入有效的手机号码！');
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 
 </html>
