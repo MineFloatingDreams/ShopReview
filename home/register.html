@@ -58,7 +58,7 @@
                                 <div class="verification">
                                     <label for="code"><i class="am-icon-code-fork"></i></label>
                                     <input type="text" name="code" id="code" placeholder="请输入验证码">
-                                    <span id="dyMobileButton">获取</span></a>
+                                    <span id="getYzm">获取</span></a>
                                 </div>
 
                                 <div class="user-name">
@@ -133,10 +133,14 @@
         if (false) {
 
         } else {
+            javaex.optTip({
+                content: "数据提交中，请稍候...",
+                type: "submit"
+            });
             $.ajax({
                 type: "post",
                 //后端需要调用的地址
-                url: "127.0.0.1:8080/ShopSystem/register",
+                url: "http://127.0.0.1:8080/ShopSystem/register",
                 dataType: "json",
                 data: {
                     "phone": phone,
@@ -149,19 +153,40 @@
                 //设置超时
                 timeout: 10000,
                 async: true,
-                success: function(htmlVal) {
-                    // console.log(htmlVal);
-                    sessionStorage.setItem("user", JSON.stringify(htmlVal));
-                    javaex.alert({
-                        content: "注册成功",
-                        callback: "toLogin()"
-                    });
+                success: function(response) {
+                    console.log(response);
+                    // sessionStorage.setItem("user", JSON.stringify(htmlVal));
+                    if (response.message == "true") {
+                        javaex.optTip({
+                            content: "操作成功",
+                            type: "success"
+                        });
+                        javaex.alert({
+                            content: "注册成功，快去登录吧！",
+                            callback: "toLogin()"
+                        });
+                    } else {
+                        javaex.alert({
+                            content: "" + response.message,
+                            callback: "toLogin()"
+                        });
+                    }
+
 
                 },
-                error: function(data) {},
+                error: function(data) {
+                    javaex.optTip({
+                        content: "操作失败",
+                        type: "error"
+                    });
+                },
                 //调用执行后调用的函数
                 complete: function(XMLHttpRequest, textStatus) {
                     if (textStatus == 'timeout') {
+                        javaex.optTip({
+                            content: "操作失败",
+                            type: "error"
+                        });
                         uploadAjax.abort(); //取消请求
                         //超时提示：请求超时，请重试
                         alert("请求超时，请重试");
@@ -241,6 +266,87 @@
             alert('不支持访问用户媒体');
         }
     });
+</script>
+<script type="text/javascript">
+    $("#getYzm").click(function() {
+        sendyzm($("#getYzm"));
+    });
+    //用ajax提交到后台的发送短信接口
+    function sendyzm(obj) {
+        var phone = $("#phone").val();
+        var result = isPhoneNum();
+        if (result) {
+            $.ajax({
+                url: "http://127.0.0.1:8080/ShopSystem/phone",
+                data: {
+                    "phone": phone
+                },
+                dataType: "json",
+                type: "post",
+                async: false,
+                cache: false,
+                success: function(res) {
+                    if (res) {
+                        console.log(res)
+                        if (res.message == "true") {
+                            javaex.alert({
+                                content: "验证码发送成功"
+                            });
+                            setTime(obj, 60); //开始倒计时
+                        } else {
+                            javaex.alert({
+                                content: "验证码发送失败，请稍后重试"
+                            });
+                            setTime(obj, 5);
+                        }
+                    }
+                },
+                error: function() {
+                    javaex.alert({
+                        content: "验证码发送失败，请稍后重试"
+                    });
+                    setTime(obj, 5);
+                }
+            })
+
+        }
+    }
+
+
+    //60s倒计时实现逻辑
+    var countdown = 60;
+
+    function setTime(obj, time) {
+        countdown = time;
+        if (countdown == 0) {
+            obj.prop('disabled', false);
+            obj.text("点击获取验证码");
+            countdown = 60; //60秒过后button上的文字初始化,计时器初始化;
+            return;
+        } else {
+            obj.prop('disabled', true);
+            obj.text("(" + countdown + "s)后重新发送");
+            console.log(countdown)
+            countdown = countdown - 1;
+        }
+        setTimeout(function() {
+                setTime(obj, countdown)
+            }, 1000) //每1000毫秒执行一次
+    }
+
+
+    //校验手机号是否合法
+    function isPhoneNum() {
+        var phonenum = $("#phone").val();
+        if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
+            javaex.alert({
+                content: "请输入有效的手机号码！"
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>
 
 </html>

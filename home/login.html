@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head lang="en">
+<head>
     <meta charset="UTF-8">
     <title>登录</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +9,23 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--字体图标-->
+    <link href="../javaex/pc/css/icomoon.css" rel="stylesheet" />
+    <!--动画-->
+    <link href="../javaex/pc/css/animate.css" rel="stylesheet" />
+    <!--骨架样式-->
+    <link href="../javaex/pc/css/common.css" rel="stylesheet" />
+    <!--皮肤（缇娜）-->
+    <link href="../javaex/pc/css/skin/tina.css" rel="stylesheet" />
+    <!--jquery，不可修改版本-->
+    <script src="../javaex/pc/lib/jquery-1.7.2.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../javaex/pc/js/common.js"></script>
+    <!--核心组件-->
+    <script src="../javaex/pc/js/javaex.min.js"></script>
+    <!--表单验证-->
+    <script src="../javaex/pc/js/javaex-formVerify.js"></script>
 
     <link rel="stylesheet" href="../AmazeUI-2.4.2/assets/css/amazeui.css" />
     <link href="../css/dlstyle.css" rel="stylesheet" type="text/css">
@@ -51,7 +68,7 @@
                     <br/>
                 </div>
                 <div class="am-cf">
-                    <input type="button" id="loginByPhone" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+                    <input type="button" onclick="loginByPhone()" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
                 </div>
                 <span onclick="usernameLogin()" id="s1">账号登录</span>
                 <span>|</span>
@@ -61,43 +78,7 @@
                 `);
         };
 
-        function uploadImage() {
 
-            let canvas = document.getElementById('canvas');
-            let context = canvas.getContext('2d');
-            canvas.width = 300;
-            canvas.height = 300;
-            context.drawImage(video, 0, 0, 300, 300);
-            var imgData = canvas.toDataURL();
-            console.log(imgData);
-            //上传到后台。
-            var uploadAjax = $.ajax({
-                type: "post",
-                //后端需要调用的地址
-                url: "http://127.0.0.1:8080/ShopSystem/loginByFace",
-                data: {
-                    "imgData": imgData
-                },
-                contentType: "json/application",
-                //设置超时
-                timeout: 10000,
-                async: true,
-                success: function(htmlVal) {
-                    alert("登录成功");
-                },
-                error: function(data) {},
-                //调用执行后调用的函数
-                complete: function(XMLHttpRequest, textStatus) {
-                    if (textStatus == 'timeout') {
-                        uploadAjax.abort(); //取消请求
-                        //超时提示：请求超时，请重试
-                        alert("请求超时，请重试")
-                            //请求超时返回首页
-                        closeCard();
-                    }
-                }
-            });
-        }
 
         function faceLogin() {
             $("#loginForm").html(`
@@ -204,7 +185,7 @@
                     <form>
                         <div class="user-name">
                             <label for="user"><i class="am-icon-user"></i></label>
-                            <input type="text" name="" id="user" placeholder="用户名">
+                            <input type="text" name="" id="username" placeholder="用户名">
                         </div>
                         <div class="user-pass">
                             <label for="password"><i class="am-icon-lock"></i></label>
@@ -221,7 +202,7 @@
                 </div>
 
                 <div class="am-cf">
-                    <input type="submit" name="" id="loginByUsername" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+                    <input type="submit" onclick="loginByUsername()" id="loginByUsername" value="登 录" class="am-btn am-btn-primary am-btn-sm">
                 </div>
 				<span onclick="usernameLogin()" id="s1">账号登录</span>
                 <span>|</span>
@@ -230,53 +211,6 @@
                 <span onclick="faceLogin()" id="s3">人脸登录</span>
                 `);
         }
-
-
-
-        function toIndex() {
-            window.location.href = 'index.html';
-        }
-
-        $("#loginByUsername").click(function() {
-            var username = $("#username").val();
-            var password = $("#password").val();
-            if (false) {
-
-            } else {
-                $.ajax({
-                    type: "post",
-                    //后端需要调用的地址
-                    url: "http://127.0.0.1:8080/ShopSystem/loginByUsername",
-                    dataType: "json",
-                    data: {
-                        "username": username,
-                        "password": password,
-                    },
-                    // contentType: "json/application",
-                    //设置超时
-                    timeout: 10000,
-                    async: true,
-                    success: function(htmlVal) {
-                        // console.log(htmlVal);
-                        sessionStorage.setItem("user", JSON.stringify(htmlVal));
-                        javaex.alert({
-                            content: "登录成功",
-                            callback: "toIndex()"
-                        });
-
-                    },
-                    error: function(data) {},
-                    //调用执行后调用的函数
-                    complete: function(XMLHttpRequest, textStatus) {
-                        if (textStatus == 'timeout') {
-                            uploadAjax.abort(); //取消请求
-                            //超时提示：请求超时，请重试
-                            alert("请求超时，请重试");
-                        }
-                    }
-                });
-            }
-        })
     </script>
 
 </head>
@@ -298,7 +232,7 @@
 
                         <div class="user-phone">
                             <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-                            <input type="tel" name="phone" id="userPhone" placeholder="请输入手机号">
+                            <input type="tel" name="phone" id="phone" placeholder="请输入手机号">
                         </div>
 
                         <div class="verification">
@@ -314,7 +248,7 @@
                     <br/>
                 </div>
                 <div class="am-cf">
-                    <input type="button" id="loginByPhone" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+                    <input type="button" onclick="loginByPhone()" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
                 </div>
                 <span onclick="usernameLogin()" id="s1">账号登录</span>
                 <span>|</span>
@@ -349,6 +283,164 @@
 
 </body>
 <script type="text/javascript">
+    function toIndex() {
+        window.location.href = 'index.html';
+    }
+
+    function loginByUsername() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        javaex.optTip({
+            content: "数据提交中，请稍候...",
+            type: "submit"
+        });
+        $.ajax({
+            type: "post",
+            //后端需要调用的地址
+            url: "http://127.0.0.1:8080/ShopSystem/loginByUsername",
+            dataType: "json",
+            data: {
+                "username": username,
+                "password": password,
+            },
+            // contentType: "json/application",
+            //设置超时
+            timeout: 10000,
+            async: true,
+            success: function(response) {
+                console.log(response);
+                // sessionStorage.setItem("user", JSON.stringify(htmlVal));
+                javaex.optTip({
+                    content: "操作成功",
+                    type: "success"
+                });
+                // javaex.alert({
+                //     content: "登录成功",
+                //     callback: "toIndex()"
+                // });
+
+            },
+            error: function(data) {
+                javaex.optTip({
+                    content: "操作失败",
+                    type: "error"
+                });
+            },
+            //调用执行后调用的函数
+            complete: function(XMLHttpRequest, textStatus) {
+                if (textStatus == 'timeout') {
+                    uploadAjax.abort(); //取消请求
+                    //超时提示：请求超时，请重试
+                    javaex.optTip({
+                        content: "操作失败",
+                        type: "error"
+                    });
+                    javaex.alert({
+                        content: "请求超时，请重试",
+                        callback: "toIndex()"
+                    });
+                }
+            }
+        });
+    }
+
+    function loginByPhone() {
+        var phone = $("#phone").val();
+        var code = $("#code").val();
+        javaex.optTip({
+            content: "数据提交中，请稍候...",
+            type: "submit"
+        });
+        $.ajax({
+            type: "post",
+            //后端需要调用的地址
+            url: "http://127.0.0.1:8080/ShopSystem/loginByPhone",
+            dataType: "json",
+            data: {
+                "phone": phone,
+                "code": code,
+            },
+            // contentType: "json/application",
+            //设置超时
+            timeout: 10000,
+            async: true,
+            success: function(response) {
+                console.log(response);
+                // sessionStorage.setItem("user", JSON.stringify(htmlVal));
+                javaex.optTip({
+                    content: "登录成功",
+                    type: "success"
+                });
+                // javaex.alert({
+                //     content: "登录成功",
+                //     callback: "toIndex()"
+                // });
+
+            },
+            error: function(data) {
+                javaex.optTip({
+                    content: "登录失败",
+                    type: "error"
+                });
+            },
+            //调用执行后调用的函数
+            complete: function(XMLHttpRequest, textStatus) {
+                if (textStatus == 'timeout') {
+                    uploadAjax.abort(); //取消请求
+                    //超时提示：请求超时，请重试
+                    javaex.optTip({
+                        content: "操作失败",
+                        type: "error"
+                    });
+                    javaex.alert({
+                        content: "请求超时，请重试",
+                        callback: "toIndex()"
+                    });
+                }
+            }
+        });
+    }
+
+    function uploadImage() {
+
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+        canvas.width = 480;
+        canvas.height = 320;
+        context.drawImage(video, 0, 0, 480, 320);
+        var imgData = canvas.toDataURL();
+        // console.log(imgData);
+        //上传到后台。
+        $.ajax({
+            type: "post",
+            //后端需要调用的地址
+            url: "http://127.0.0.1:8080/ShopSystem/loginByFace",
+            dataType: "json",
+            data: {
+                "image": imgData
+            },
+            //设置超时
+            timeout: 10000,
+            async: true,
+            success: function(response) {
+                console.log(response);
+                alert("登录成功");
+            },
+            error: function(data) {},
+            //调用执行后调用的函数
+            complete: function(XMLHttpRequest, textStatus) {
+                if (textStatus == 'timeout') {
+                    uploadAjax.abort(); //取消请求
+                    //超时提示：请求超时，请重试
+                    alert("请求超时，请重试")
+                        //请求超时返回首页  
+                    closeCard();
+                }
+            }
+        });
+    }
+
+
     $("#getYzm").click(function() {
         sendyzm($("#getYzm"));
     });
@@ -358,7 +450,7 @@
         var result = isPhoneNum();
         if (result) {
             $.ajax({
-                url: "http://127.0.0.1:8080/ShopSystem/sendYzm",
+                url: "http://127.0.0.1:8080/ShopSystem/phone",
                 data: {
                     "phone": phone
                 },
@@ -367,25 +459,37 @@
                 async: false,
                 cache: false,
                 success: function(res) {
-                    debugger;
                     if (res) {
-                        alert("验证码发送成功");
-                    } else {
-
+                        console.log(res)
+                        if (res.message == "true") {
+                            javaex.alert({
+                                content: "验证码发送成功"
+                            });
+                            setTime(obj, 60); //开始倒计时
+                        } else {
+                            javaex.alert({
+                                content: "验证码发送失败，请稍后重试"
+                            });
+                            setTime(obj, 5);
+                        }
                     }
                 },
                 error: function() {
-                    alert("验证码发送失败");
+                    javaex.alert({
+                        content: "验证码发送失败，请稍后重试"
+                    });
+                    setTime(obj, 5);
                 }
             })
-            setTime(obj); //开始倒计时
+
         }
     }
 
     //60s倒计时实现逻辑
     var countdown = 60;
 
-    function setTime(obj) {
+    function setTime(obj, time) {
+        countdown = time;
         if (countdown == 0) {
             obj.prop('disabled', false);
             obj.text("点击获取验证码");
@@ -394,10 +498,11 @@
         } else {
             obj.prop('disabled', true);
             obj.text("(" + countdown + "s)后重新发送");
-            countdown--;
+            console.log(countdown)
+            countdown = countdown - 1;
         }
         setTimeout(function() {
-                setTime(obj)
+                setTime(obj, countdown)
             }, 1000) //每1000毫秒执行一次
     }
 
@@ -406,7 +511,9 @@
     function isPhoneNum() {
         var phonenum = $("#userPhone").val();
         if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
-            alert('请输入有效的手机号码！');
+            javaex.alert({
+                content: "请输入有效的手机号码！"
+            });
             return false;
         } else {
             return true;
