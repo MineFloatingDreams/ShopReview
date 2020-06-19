@@ -319,7 +319,7 @@
             async: true,
             success: function(response) {
                 console.log(response);
-                sessionStorage.setItem("user", JSON.stringify(response));
+                sessionStorage.setItem("user", JSON.stringify(response.user));
                 javaex.optTip({
                     content: "登录成功",
                     type: "success"
@@ -362,176 +362,174 @@
             type: "submit"
         });
         $.ajax({
-            type: "post",
-            //后端需要调用的地址
-            url: "http://127.0.0.1:8080/ShopSystem/loginByPhone",
-            dataType: "json",
-            data: {
-                "phone": phone,
-                "code": code,
-            },
-            // contentType: "json/application",
-            //设置超时
-            timeout: 10000,
-            async: true,
-            success: function(response) {
-                console.log(response);
-                sessionStorage.setItem("user", JSON.stringify(response));
-                javaex.optTip({
-                    content: "登录成功",
-                    type: "success"
-                });
-                // javaex.alert({
-                //     content: "登录成功",
-                //     callback: "toIndex()"
-                // });
-
-            },
-            error: function(data) {
-                javaex.optTip({
-                    content: "登录失败",
-                    type: "error"
-                });
-            },
-            //调用执行后调用的函数
-            complete: function(XMLHttpRequest, textStatus) {
-                if (textStatus == 'timeout') {
-                    uploadAjax.abort(); //取消请求
-                    //超时提示：请求超时，请重试
-                    javaex.optTip({
-                        content: "操作失败",
-                        type: "error"
-                    });
-                    javaex.alert({
-                        content: "请求超时，请重试",
-                        callback: "toIndex()"
-                    });
-                }
-            }
-        });
-    }
-
-    function uploadImage() {
-
-        let canvas = document.getElementById('canvas');
-        let context = canvas.getContext('2d');
-        canvas.width = 480;
-        canvas.height = 320;
-        context.drawImage(video, 0, 0, 480, 320);
-        var imgData = canvas.toDataURL();
-        // console.log(imgData);
-        //上传到后台。
-        $.ajax({
-            type: "post",
-            //后端需要调用的地址
-            url: "http://127.0.0.1:8080/ShopSystem/loginByFace",
-            dataType: "json",
-            data: {
-                "image": imgData
-            },
-            //设置超时
-            timeout: 10000,
-            async: true,
-            success: function(response) {
-                console.log(response);
-                sessionStorage.setItem("user", JSON.stringify(response));
-                javaex.optTip({
-                    content: "登录成功",
-                    type: "success"
-                });
-            },
-            error: function(data) {},
-            //调用执行后调用的函数
-            complete: function(XMLHttpRequest, textStatus) {
-                if (textStatus == 'timeout') {
-                    uploadAjax.abort(); //取消请求
-                    //超时提示：请求超时，请重试
-                    alert("请求超时，请重试")
-                        //请求超时返回首页  
-                    closeCard();
-                }
-            }
-        });
-    }
-
-
-    $("#getYzm").click(function() {
-        sendyzm($("#getYzm"));
-    });
-    //用ajax提交到后台的发送短信接口
-    function sendyzm(obj) {
-        var phone = $("#phone").val();
-        var result = isPhoneNum(phone);
-        if (result) {
-            $.ajax({
-                url: "http://127.0.0.1:8080/ShopSystem/phone",
-                data: {
-                    "phone": phone
-                },
-                dataType: "json",
                 type: "post",
-                async: false,
-                cache: false,
-                success: function(res) {
-                    if (res) {
-                        console.log(res)
-                        if (res.message == "true") {
-                            javaex.alert({
-                                content: "验证码发送成功"
+                //后端需要调用的地址
+                url: "http://127.0.0.1:8080/ShopSystem/loginByPhone",
+                dataType: "json",
+                data: {
+                    "phone": phone,
+                    "code": code,
+                },
+                // contentType: "json/application",
+                //设置超时
+                timeout: 10000,
+                async: true,
+                success: function(response) {
+                    console.log(response);
+                    sessionStorage.setItem("user", JSON.stringify((response.user)); javaex.optTip({
+                                content: "登录成功",
+                                type: "success"
                             });
-                            setTime(obj, 60); //开始倒计时
-                        } else {
+                            // javaex.alert({
+                            //     content: "登录成功",
+                            //     callback: "toIndex()"
+                            // });
+
+                        },
+                        error: function(data) {
+                            javaex.optTip({
+                                content: "登录失败",
+                                type: "error"
+                            });
+                        },
+                        //调用执行后调用的函数
+                        complete: function(XMLHttpRequest, textStatus) {
+                            if (textStatus == 'timeout') {
+                                uploadAjax.abort(); //取消请求
+                                //超时提示：请求超时，请重试
+                                javaex.optTip({
+                                    content: "操作失败",
+                                    type: "error"
+                                });
+                                javaex.alert({
+                                    content: "请求超时，请重试",
+                                    callback: "toIndex()"
+                                });
+                            }
+                        }
+                });
+        }
+
+        function uploadImage() {
+
+            let canvas = document.getElementById('canvas');
+            let context = canvas.getContext('2d');
+            canvas.width = 480;
+            canvas.height = 320;
+            context.drawImage(video, 0, 0, 480, 320);
+            var imgData = canvas.toDataURL();
+            // console.log(imgData);
+            //上传到后台。
+            $.ajax({
+                    type: "post",
+                    //后端需要调用的地址
+                    url: "http://127.0.0.1:8080/ShopSystem/loginByFace",
+                    dataType: "json",
+                    data: {
+                        "image": imgData
+                    },
+                    //设置超时
+                    timeout: 10000,
+                    async: true,
+                    success: function(response) {
+                        console.log(response);
+                        sessionStorage.setItem("user", JSON.stringify((response.user)); javaex.optTip({
+                                    content: "登录成功",
+                                    type: "success"
+                                });
+                            },
+                            error: function(data) {},
+                            //调用执行后调用的函数
+                            complete: function(XMLHttpRequest, textStatus) {
+                                if (textStatus == 'timeout') {
+                                    uploadAjax.abort(); //取消请求
+                                    //超时提示：请求超时，请重试
+                                    alert("请求超时，请重试")
+                                        //请求超时返回首页  
+                                    closeCard();
+                                }
+                            }
+                    });
+            }
+
+
+            $("#getYzm").click(function() {
+                sendyzm($("#getYzm"));
+            });
+            //用ajax提交到后台的发送短信接口
+            function sendyzm(obj) {
+                var phone = $("#phone").val();
+                var result = isPhoneNum(phone);
+                if (result) {
+                    $.ajax({
+                        url: "http://127.0.0.1:8080/ShopSystem/phone",
+                        data: {
+                            "phone": phone
+                        },
+                        dataType: "json",
+                        type: "post",
+                        async: false,
+                        cache: false,
+                        success: function(res) {
+                            if (res) {
+                                console.log(res)
+                                if (res.message == "true") {
+                                    javaex.alert({
+                                        content: "验证码发送成功"
+                                    });
+                                    setTime(obj, 60); //开始倒计时
+                                } else {
+                                    javaex.alert({
+                                        content: "验证码发送失败，请稍后重试"
+                                    });
+                                    setTime(obj, 5);
+                                }
+                            }
+                        },
+                        error: function() {
                             javaex.alert({
                                 content: "验证码发送失败，请稍后重试"
                             });
                             setTime(obj, 5);
                         }
-                    }
-                },
-                error: function() {
-                    javaex.alert({
-                        content: "验证码发送失败，请稍后重试"
-                    });
-                    setTime(obj, 5);
+                    })
+
                 }
-            })
+            }
 
-        }
-    }
+            //60s倒计时实现逻辑
+            var countdown = 60;
 
-    //60s倒计时实现逻辑
-    var countdown = 60;
-
-    function setTime(obj, time) {
-        countdown = time;
-        if (countdown == 0) {
-            obj.prop('disabled', false);
-            obj.text("点击获取验证码");
-            countdown = 60; //60秒过后button上的文字初始化,计时器初始化;
-            return;
-        } else {
-            obj.prop('disabled', true);
-            obj.text("(" + countdown + "s)后重新发送");
-            console.log(countdown)
-            countdown = countdown - 1;
-        }
-        setTimeout(function() {
-                setTime(obj, countdown)
-            }, 1000) //每1000毫秒执行一次
-    }
+            function setTime(obj, time) {
+                countdown = time;
+                if (countdown == 0) {
+                    obj.prop('disabled', false);
+                    obj.text("点击获取验证码");
+                    countdown = 60; //60秒过后button上的文字初始化,计时器初始化;
+                    return;
+                } else {
+                    obj.prop('disabled', true);
+                    obj.text("(" + countdown + "s)后重新发送");
+                    console.log(countdown)
+                    countdown = countdown - 1;
+                }
+                setTimeout(function() {
+                        setTime(obj, countdown)
+                    }, 1000) //每1000毫秒执行一次
+            }
 
 
-    //校验手机号是否合法
-    function isPhoneNum(phonenum) {
-        if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
-            javaex.alert({
-                content: "请输入有效的手机号码！"
-            });
-            return false;
-        } else {
-            return true;
-        }
-    }
+            //校验手机号是否合法
+            function isPhoneNum(phonenum) {
+                if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
+                    javaex.alert({
+                        content: "请输入有效的手机号码！"
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
+            }
 </script>
 
 </html>
