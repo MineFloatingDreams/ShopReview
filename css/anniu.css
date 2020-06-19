@@ -13,7 +13,7 @@
 }
 
 .bt1:hover {
-    background-color: rgba(207, 220, 230, 1);
+    background-color: white;
     color: red;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .bt2:hover {
-    background-color: rgba(207, 220, 230, 1);
+    background-color: white;
     color: red;
 }
 

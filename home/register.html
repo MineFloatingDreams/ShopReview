@@ -70,12 +70,12 @@
                                 </div>
 
                                 <div class="form-but">
-                                    <input type="button" onclick="getFace()" class="bt3" name="face" style="width: 300px;height: 45px;margin-top: 10px;">人脸信息采集</imput>
+                                    <input type="button" onclick="getFace()" class="bt3" name="face" style="width: 300px;height: 45px;margin-top: 10px;" value="人脸信息采集"></imput>
                                 </div>
 
                             </form>
-                            <div class="am-cf ">
-                                <button id="save " name=" " class="bt3" style="width: 300px;height: 45px;">注册</button>
+                            <div class="am-cf">
+                                <button id="save" name=" " class="bt3" style="width: 300px;height: 45px;">注册</button>
                             </div>
                         </div>
                     </div>
@@ -85,14 +85,14 @@
     </div>
 
     <div class=" footer ">
-        <div class="footer-hd ">
+        <div class="footer-hd">
             <p>
-                <a href="# ">常州信息</a>
+                <a href="#">常州信息</a>
                 <b>|</b>
-                <a href="# ">商城首页</a>
+                <a href="#">商城首页</a>
 
                 <b>|</b>
-                <a href="# ">物流</a>
+                <a href="#">物流</a>
             </p>
         </div>
         <div class="footer-bd ">
@@ -106,83 +106,80 @@
 </body>
 
 <script>
-    var imgData = " ";
+    var imgData = "";
 
     function toLogin() {
         window.location.href = 'login.html';
     }
 
-    $("#save ").click(function() {
+    $("#save").click(function() {
         var phone = $("#phone").val();
         var code = $("#code").val();
         var username = $("#username").val();
         var password = $("#password").val();
-        if (false) {
-
-        } else {
-            javaex.optTip({
-                content: "数据提交中，请稍候... ",
-                type: "submit "
-            });
-            $.ajax({
-                type: "post ",
-                //后端需要调用的地址
-                url: "http://127.0.0.1:8080/ShopSystem/register ",
-                dataType: "json ",
-                data: {
-                    "phone ": phone,
-                    "code ": code,
-                    "password ": password,
-                    "username ": username,
-                    "imgData ": imgData
-                },
-                // contentType: "json/application ",
-                //设置超时
-                timeout: 10000,
-                async: true,
-                success: function(response) {
-                    console.log(response);
-                    // sessionStorage.setItem("user ", JSON.stringify(htmlVal));
-                    if (response.message == "true ") {
-                        javaex.optTip({
-                            content: "操作成功 ",
-                            type: "success "
-                        });
-                        javaex.alert({
-                            content: "注册成功，快去登录吧！ ",
-                            callback: "toLogin() "
-                        });
-                    } else {
-                        javaex.alert({
-                            content: " " + response.message,
-                        });
-                    }
-
-
-                },
-                error: function(data) {
+        javaex.optTip({
+            content: "数据提交中，请稍候... ",
+            type: "submit"
+        });
+        $.ajax({
+            type: "post",
+            //后端需要调用的地址
+            url: "http://127.0.0.1:8080/ShopSystem/register",
+            dataType: "json",
+            data: {
+                "phone": phone,
+                "code": code,
+                "password": password,
+                "username": username,
+                "imgData": imgData
+            },
+            // contentType: "json/application ",
+            //设置超时
+            timeout: 10000,
+            async: true,
+            success: function(response) {
+                console.log(response);
+                // sessionStorage.setItem("user ", JSON.stringify(htmlVal));
+                if (response.message == "true") {
                     javaex.optTip({
-                        content: "操作失败 ",
-                        type: "error "
+                        content: "操作成功",
+                        type: "success"
                     });
-                },
-                //调用执行后调用的函数
-                complete: function(XMLHttpRequest, textStatus) {
-                    if (textStatus == 'timeout') {
-                        javaex.optTip({
-                            content: "操作失败 ",
-                            type: "error "
-                        });
-                        uploadAjax.abort(); //取消请求
-                        //超时提示：请求超时，请重试
-                        javaex.alert({
-                            content: "请求超时，请重试  ",
-                            callback: "toLogin() "
-                        });
-                    }
+                    javaex.alert({
+                        content: "注册成功，快去登录吧!",
+                        callback: "toLogin()"
+                    });
+                } else {
+                    javaex.alert({
+                        content: "" + response.message,
+                    });
                 }
-            });
-        }
+
+
+            },
+            error: function(data) {
+                javaex.optTip({
+                    content: "操作失败",
+                    type: "error"
+                });
+            },
+            //调用执行后调用的函数
+            complete: function(XMLHttpRequest, textStatus) {
+                if (textStatus == 'timeout') {
+                    javaex.optTip({
+                        content: "操作失败",
+                        type: "error"
+                    });
+                    uploadAjax.abort(); //取消请求
+                    //超时提示：请求超时，请重试
+                    javaex.alert({
+                        content: "请求超时，请重试",
+                        callback: "toLogin()"
+                    });
+                }
+            }
+        });
+
     })
 
 
@@ -258,39 +255,40 @@
         }
     };
 </script>
-<script type="text/javascript ">
+<script type="text/javascript">
     function getCode() {
         if (flag == true) {
-            sendyzm($("#getYzm "));
+            sendyzm($("#getYzm"));
         }
 
     };
     //用ajax提交到后台的发送短信接口
     function sendyzm(obj) {
 
-        var phone = $("#phone ").val();
-        var result = isPhoneNum();
+        var phone = $("#phone").val();
+        var result = isPhoneNum(phone);
         if (result) {
+            console.log(123)
             $.ajax({
-                url: "http://127.0.0.1:8080/ShopSystem/phone ",
+                url: "http://127.0.0.1:8080/ShopSystem/phone",
                 data: {
-                    "phone ": phone
+                    "phone": phone
                 },
-                dataType: "json ",
-                type: "post ",
+                dataType: "json",
+                type: "post",
                 async: false,
                 cache: false,
                 success: function(res) {
                     if (res) {
-                        console.log(res)
-                        if (res.message == "true ") {
+                        console.log(res);
+                        if (res.message == "true") {
                             javaex.alert({
-                                content: "验证码发送成功 "
+                                content: "验证码发送成功"
                             });
                             setTime(obj, 60); //开始倒计时
                         } else {
                             javaex.alert({
-                                content: "验证码发送失败，请稍后重试 "
+                                content: "验证码发送失败，请稍后重试"
                             });
                             setTime(obj, 5);
                         }
@@ -317,13 +315,13 @@
         if (countdown == 0) {
             flag = true
             obj.prop('disabled', false);
-            obj.text("获取验证码 ");
+            obj.text("获取验证码");
             countdown = 60; //60秒过后button上的文字初始化,计时器初始化;
             return;
         } else {
             flag = false;
             obj.prop('disabled', true);
-            obj.text("( " + countdown + "s)后获取 ");
+            obj.text("( " + countdown + "s) ");
             console.log(countdown)
             countdown = countdown - 1;
         }
@@ -335,7 +333,7 @@
 
     //校验手机号是否合法
     function isPhoneNum() {
-        var phonenum = $("#phone ").val();
+        var phonenum = $("#phone").val();
         if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
             javaex.alert({
                 content: "请输入有效的手机号码！ "
