@@ -2,6 +2,7 @@
 <html>
 
 <head>
+
     <meta charset="UTF-8">
     <title>登录</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,7 +27,7 @@
     <script src="../javaex/pc/js/javaex.min.js"></script>
     <!--表单验证-->
     <script src="../javaex/pc/js/javaex-formVerify.js"></script>
-
+    <link rel="stylesheet" href="../css/anniu.css">
     <link rel="stylesheet" href="../AmazeUI-2.4.2/assets/css/amazeui.css" />
     <link href="../css/dlstyle.css" rel="stylesheet" type="text/css">
     <script src="../js/jquery.js"></script>
@@ -52,13 +53,14 @@
 
                         <div class="user-phone">
                                     <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-                                    <input type="tel" name="phone" id="userPhone" placeholder="请输入手机号">
+                                    <input type="tel" name="phone" id="phone" placeholder="请输入手机号" style="border: black solid 1px;">
                                 </div>
                         
                                 <div class="verification">
-                                    <label for="code"><i class="am-icon-code-fork"></i></label>
-                                    <input type="text" name="code" id="code" placeholder="请输入验证码">
-                                    <button type="button" class="btn btn-info"  id="second">点击获取验证码</button>
+                                    <label for="code"><i class="am-icon-lock"></i></label>
+                                    <input type="text" name="code" id="code" placeholder="请输入验证码" style="border: black solid 1px;width: 320px;">
+                                    <button type="button" class="bt2" id="getYzm">点击获取验证码</button>
+
                                 </div>
                      </form>
                 </div>
@@ -68,13 +70,14 @@
                     <br/>
                 </div>
                 <div class="am-cf">
-                    <input type="button" onclick="loginByPhone()" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+                    <input type="button" onclick="loginByPhone()" name="" value="登 录" class="bt3">
                 </div>
-                <span onclick="usernameLogin()" id="s1">账号登录</span>
+                <br>
+                <button onclick="usernameLogin()" id="s1" class="bt1">账号登录</button>
                 <span>|</span>
-                <span onclick="phoneLogin()" id="s2">手机登录</span>
+                <button onclick="phoneLogin()" id="s2" class="bt1">手机登录</button>
                 <span>|</span>
-                <span onclick="faceLogin()" id="s3">人脸登录</span>
+                <button onclick="faceLogin()" id="s3" class="bt1">人脸登录</button>
                 `);
         };
 
@@ -85,16 +88,17 @@
 			<h3 class="title">登录商城</h3>
                 
 				<video id="video" width="320" height="180" controls></video>
-                <button id="capture" onclick="uploadImage()" class="am-btn am-btn-primary am-btn-sm">登录</button>
+                <button id="capture" onclick="uploadImage()" class="bt3">登录</button>
 
                 <div class="login-links">
                     <a href="register.html" class="zcnext am-fr am-btn-default">注册</a>
                 </div>
-				<span onclick="usernameLogin()" id="s1">账号登录</span>
+				
+                <button onclick="usernameLogin()" id="s1" class="bt1">账号登录</button>
                 <span>|</span>
-                <span onclick="phoneLogin()" id="s2">手机登录</span>
+                <button onclick="phoneLogin()" id="s2" class="bt1">手机登录</button>
                 <span>|</span>
-                <span onclick="faceLogin()" id="s3">人脸登录</span>
+                <button onclick="faceLogin()" id="s3" class="bt1">人脸登录</button>
                 `);
             //访问用户媒体设备的兼容方法
             function getUserMedia(constraints, success, error) {
@@ -201,14 +205,17 @@
                     <br />
                 </div>
 
+                
                 <div class="am-cf">
-                    <input type="submit" onclick="loginByUsername()" id="loginByUsername" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+                    
+                    <button id="loginByUsername" onclick="loginByUsername()" class="bt3">登录</button>
                 </div>
-				<span onclick="usernameLogin()" id="s1">账号登录</span>
+				<br>
+                <button onclick="usernameLogin()" id="s1" class="bt1">账号登录</button>
                 <span>|</span>
-                <span onclick="phoneLogin()" id="s2">手机登录</span>
+                <button onclick="phoneLogin()" id="s2" class="bt1">手机登录</button>
                 <span>|</span>
-                <span onclick="faceLogin()" id="s3">人脸登录</span>
+                <button onclick="faceLogin()" id="s3" class="bt1">人脸登录</button>
                 `);
         }
     </script>
@@ -232,13 +239,13 @@
 
                         <div class="user-phone">
                             <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-                            <input type="tel" name="phone" id="phone" placeholder="请输入手机号">
+                            <input type="tel" name="phone" id="phone" placeholder="请输入手机号" style="border: black solid 1px;">
                         </div>
 
                         <div class="verification">
-                            <label for="code"><i class="am-icon-code-fork"></i></label>
-                            <input type="text" name="code" id="code" placeholder="请输入验证码">
-                            <button type="button" class="btn btn-info" id="getYzm">点击获取验证码</button>
+                            <label for="code"><i class="am-icon-lock"></i></label>
+                            <input type="text" name="code" id="code" placeholder="请输入验证码" style="border: black solid 1px;width: 320px;">
+                            <button type="button" id="getYzm" class="bt2">点击获取验证码</button>
                         </div>
                     </form>
                 </div>
@@ -248,13 +255,16 @@
                     <br/>
                 </div>
                 <div class="am-cf">
-                    <input type="button" onclick="loginByPhone()" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+
+                    <button id="" onclick="loginByPhone()" class="bt3">登录</button>
                 </div>
-                <span onclick="usernameLogin()" id="s1">账号登录</span>
+
+                <br>
+                <button onclick="usernameLogin()" id="s1" class="bt1">账号登录</button>
                 <span>|</span>
-                <span onclick="phoneLogin()" id="s2">手机登录</span>
+                <button onclick="phoneLogin()" id="s2" class="bt1">手机登录</button>
                 <span>|</span>
-                <span onclick="faceLogin()" id="s3">人脸登录</span>
+                <button onclick="faceLogin()" id="s3" class="bt1">人脸登录</button>
 
             </div>
         </div>
@@ -309,9 +319,9 @@
             async: true,
             success: function(response) {
                 console.log(response);
-                // sessionStorage.setItem("user", JSON.stringify(htmlVal));
+                sessionStorage.setItem("user", JSON.stringify(response));
                 javaex.optTip({
-                    content: "操作成功",
+                    content: "登录成功",
                     type: "success"
                 });
                 // javaex.alert({
@@ -366,7 +376,7 @@
             async: true,
             success: function(response) {
                 console.log(response);
-                // sessionStorage.setItem("user", JSON.stringify(htmlVal));
+                sessionStorage.setItem("user", JSON.stringify(response));
                 javaex.optTip({
                     content: "登录成功",
                     type: "success"
@@ -424,7 +434,11 @@
             async: true,
             success: function(response) {
                 console.log(response);
-                alert("登录成功");
+                sessionStorage.setItem("user", JSON.stringify(response));
+                javaex.optTip({
+                    content: "登录成功",
+                    type: "success"
+                });
             },
             error: function(data) {},
             //调用执行后调用的函数
@@ -446,8 +460,8 @@
     });
     //用ajax提交到后台的发送短信接口
     function sendyzm(obj) {
-        var phone = $("#userPhone").val();
-        var result = isPhoneNum();
+        var phone = $("#phone").val();
+        var result = isPhoneNum(phone);
         if (result) {
             $.ajax({
                 url: "http://127.0.0.1:8080/ShopSystem/phone",
@@ -508,8 +522,7 @@
 
 
     //校验手机号是否合法
-    function isPhoneNum() {
-        var phonenum = $("#userPhone").val();
+    function isPhoneNum(phonenum) {
         if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
             javaex.alert({
                 content: "请输入有效的手机号码！"

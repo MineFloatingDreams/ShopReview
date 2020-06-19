@@ -28,7 +28,7 @@
 
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-
+    <link rel="stylesheet" href="../css/anniu.css">
 </head>
 
 <body>
@@ -51,41 +51,35 @@
                     <div class="am-tabs-bd" style="margin-top: -30px;">
                         <div class="am-tab-panel am-active">
                             <form method="post">
-                                <div class="user-phone">
+                                <div class="user-phone" style="margin-top: 10px;">
                                     <label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-                                    <input type="tel" name="phone" id="phone" placeholder="请输入手机号">
+                                    <input type="tel" name="phone" id="phone" placeholder="请输入手机号" style="border:#CCCCCC solid 1px;">
                                 </div>
-                                <div class="verification">
-                                    <label for="code"><i class="am-icon-code-fork"></i></label>
-                                    <input type="text" name="code" id="code" placeholder="请输入验证码">
-                                    <span id="getYzm">获取</span></a>
+                                <div class="verification" style="margin-top: 10px;">
+                                    <label for="code"><i class="am-icon-lock"></i></label>
+                                    <input type="text" name="code" id="code" placeholder="请输入验证码" style="width: 220px;">
+                                    <a id="getYzm" onclick="getCode()" style="color: tomato;">获取验证码</a>
                                 </div>
 
-                                <div class="user-name">
+                                <div class="user-name" style="margin-top: 10px;">
                                     <label for="user"><i class="am-icon-user"></i></label>
                                     <input type="text" name="username" id="username" placeholder="请输入账号">
                                 </div>
-                                <div class="user-pass">
+                                <div class="user-pass" style="margin-top: 10px;">
                                     <label for="password"><i class="am-icon-lock"></i></label>
                                     <input type="password" name="password" id="password" placeholder="设置密码">
                                 </div>
 
 
-                                <div class="form-btn">
-                                    <input type="button" id="face" name="face" value="人脸信息采集" />
+                                <div class="form-but">
+                                    <button onclick="getFace()" class="bt3" name="face" style="width: 300px;height: 45px;margin-top: 10px;">人脸信息采集</button>
                                 </div>
 
 
                             </form>
 
-                            <div class="login-links">
-                                <label for="reader-me">
-											<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
-										</label>
-                            </div>
-
-                            <div class="am-cf">
-                                <input id="save" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+                            <div class="am-cf ">
+                                <button id="save " name=" " class="bt3" style="width: 300px;height: 45px;">注册</button>
                             </div>
 
                         </div>
@@ -97,7 +91,7 @@
             </div>
         </div>
 
-        <div class="footer ">
+        <div class=" footer ">
             <div class="footer-hd ">
                 <p>
                     <a href="# ">常州信息</a>
@@ -115,60 +109,59 @@
             </div>
         </div>
 
-        <canvas style="display: none" id="canvas" width="480" height="320"></canvas>
+        <canvas style="display: none " id="canvas " width="480 " height="320 "></canvas>
 </body>
 
 <script>
-    var imgData = "";
+    var imgData = " ";
 
     function toLogin() {
         window.location.href = 'login.html';
     }
 
-    $("#save").click(function() {
-        var phone = $("#phone").val();
-        var code = $("#code").val();
-        var username = $("#username").val();
-        var password = $("#password").val();
+    $("#save ").click(function() {
+        var phone = $("#phone ").val();
+        var code = $("#code ").val();
+        var username = $("#username ").val();
+        var password = $("#password ").val();
         if (false) {
 
         } else {
             javaex.optTip({
-                content: "数据提交中，请稍候...",
-                type: "submit"
+                content: "数据提交中，请稍候... ",
+                type: "submit "
             });
             $.ajax({
-                type: "post",
+                type: "post ",
                 //后端需要调用的地址
-                url: "http://127.0.0.1:8080/ShopSystem/register",
-                dataType: "json",
+                url: "http://127.0.0.1:8080/ShopSystem/register ",
+                dataType: "json ",
                 data: {
-                    "phone": phone,
-                    "code": code,
-                    "password": password,
-                    "username": username,
-                    "imgData": imgData
+                    "phone ": phone,
+                    "code ": code,
+                    "password ": password,
+                    "username ": username,
+                    "imgData ": imgData
                 },
-                // contentType: "json/application",
+                // contentType: "json/application ",
                 //设置超时
                 timeout: 10000,
                 async: true,
                 success: function(response) {
                     console.log(response);
-                    // sessionStorage.setItem("user", JSON.stringify(htmlVal));
-                    if (response.message == "true") {
+                    // sessionStorage.setItem("user ", JSON.stringify(htmlVal));
+                    if (response.message == "true ") {
                         javaex.optTip({
-                            content: "操作成功",
-                            type: "success"
+                            content: "操作成功 ",
+                            type: "success "
                         });
                         javaex.alert({
-                            content: "注册成功，快去登录吧！",
-                            callback: "toLogin()"
+                            content: "注册成功，快去登录吧！ ",
+                            callback: "toLogin() "
                         });
                     } else {
                         javaex.alert({
-                            content: "" + response.message,
-                            callback: "toLogin()"
+                            content: " " + response.message,
                         });
                     }
 
@@ -176,20 +169,23 @@
                 },
                 error: function(data) {
                     javaex.optTip({
-                        content: "操作失败",
-                        type: "error"
+                        content: "操作失败 ",
+                        type: "error "
                     });
                 },
                 //调用执行后调用的函数
                 complete: function(XMLHttpRequest, textStatus) {
                     if (textStatus == 'timeout') {
                         javaex.optTip({
-                            content: "操作失败",
-                            type: "error"
+                            content: "操作失败 ",
+                            type: "error "
                         });
                         uploadAjax.abort(); //取消请求
                         //超时提示：请求超时，请重试
-                        alert("请求超时，请重试");
+                        javaex.alert({
+                            content: "请求超时，请重试  ",
+                            callback: "toLogin() "
+                        });
                     }
                 }
             });
@@ -208,14 +204,14 @@
 
     }
 
-    $("#face").click(function() {
+    function getFace() {
         console.log(10);
         javaex.confirm({
             width: `520`,
-            title: "人脸识别",
-            content: `<video id="video" width="480" height="320" controls></video>`,
-            callback: "getImgData()",
-            confirmName: "拍摄"
+            title: "人脸识别 ",
+            content: `<video id="video " width="480 " height="320 " controls></video>`,
+            callback: "getImgData() ",
+            confirmName: "拍摄 "
         });
 
 
@@ -265,37 +261,41 @@
         } else {
             alert('不支持访问用户媒体');
         }
-    });
+    };
 </script>
-<script type="text/javascript">
-    $("#getYzm").click(function() {
-        sendyzm($("#getYzm"));
-    });
+<script type="text/javascript ">
+    function getCode() {
+        if (flag == true) {
+            sendyzm($("#getYzm "));
+        }
+
+    };
     //用ajax提交到后台的发送短信接口
     function sendyzm(obj) {
-        var phone = $("#phone").val();
+
+        var phone = $("#phone ").val();
         var result = isPhoneNum();
         if (result) {
             $.ajax({
-                url: "http://127.0.0.1:8080/ShopSystem/phone",
+                url: "http://127.0.0.1:8080/ShopSystem/phone ",
                 data: {
-                    "phone": phone
+                    "phone ": phone
                 },
-                dataType: "json",
-                type: "post",
+                dataType: "json ",
+                type: "post ",
                 async: false,
                 cache: false,
                 success: function(res) {
                     if (res) {
                         console.log(res)
-                        if (res.message == "true") {
+                        if (res.message == "true ") {
                             javaex.alert({
-                                content: "验证码发送成功"
+                                content: "验证码发送成功 "
                             });
                             setTime(obj, 60); //开始倒计时
                         } else {
                             javaex.alert({
-                                content: "验证码发送失败，请稍后重试"
+                                content: "验证码发送失败，请稍后重试 "
                             });
                             setTime(obj, 5);
                         }
@@ -303,7 +303,7 @@
                 },
                 error: function() {
                     javaex.alert({
-                        content: "验证码发送失败，请稍后重试"
+                        content: "验证码发送失败，请稍后重试 "
                     });
                     setTime(obj, 5);
                 }
@@ -315,17 +315,20 @@
 
     //60s倒计时实现逻辑
     var countdown = 60;
+    var flag = true;
 
     function setTime(obj, time) {
         countdown = time;
         if (countdown == 0) {
+            flag = true
             obj.prop('disabled', false);
-            obj.text("点击获取验证码");
+            obj.text("获取验证码 ");
             countdown = 60; //60秒过后button上的文字初始化,计时器初始化;
             return;
         } else {
+            flag = false;
             obj.prop('disabled', true);
-            obj.text("(" + countdown + "s)后重新发送");
+            obj.text("( " + countdown + "s)后获取 ");
             console.log(countdown)
             countdown = countdown - 1;
         }
@@ -337,10 +340,10 @@
 
     //校验手机号是否合法
     function isPhoneNum() {
-        var phonenum = $("#phone").val();
+        var phonenum = $("#phone ").val();
         if (!(/^1[3456789]\d{9}$/.test(phonenum))) {
             javaex.alert({
-                content: "请输入有效的手机号码！"
+                content: "请输入有效的手机号码！ "
             });
             return false;
         } else {
