@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>首页</title>
+    <!--字体图标-->
+    <link href="../javaex/pc/css/icomoon.css" rel="stylesheet" />
+    <!--动画-->
+    <link href="../javaex/pc/css/animate.css" rel="stylesheet" />
+    <!--骨架样式-->
+    <link href="../javaex/pc/css/common.css" rel="stylesheet" />
+    <!--皮肤（缇娜）-->
+    <link href="../javaex/pc/css/skin/tina.css" rel="stylesheet" />
+    <!--jquery，不可修改版本-->
+    <script src="../javaex/pc/lib/jquery-1.7.2.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../javaex/pc/js/common.js"></script>
+    <!--核心组件-->
+    <script src="../javaex/pc/js/javaex.min.js"></script>
+    <!--表单验证-->
+    <script src="../javaex/pc/js/javaex-formVerify.js"></script>
 
     <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
     <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
@@ -35,7 +51,7 @@
                     <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
                 </div>
                 <div class="topMessage my-shangcheng">
-                    <div class="menu-hd MyShangcheng"><a href="/person/information.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                    <div class="menu-hd MyShangcheng"><a id="person" href="/person/information.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                 </div>
                 <div class="topMessage mini-cart">
                     <div class="menu-hd"><a id="mc-menu-hd" href="shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
@@ -48,8 +64,8 @@
             <div class="search-bar pr">
                 <!-- <a name="index_none_header_sysc" href="#"></a> -->
                 <form>
-                    <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-                    <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+                    <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="请输入商品关键字(不写则显示所有商品)" autocomplete="off">
+                    <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="button" onclick="searchGoods()">
                 </form>
             </div>
         </div>
@@ -416,9 +432,6 @@
             </div>
         </div>
     </div>
-    <script>
-        window.jQuery || document.write('<script src="basic/js/jquery.min.js "><\/script>');
-    </script>
     <script type="text/javascript " src="../basic/js/quick_links.js "></script>
 </body>
 <script>
@@ -433,7 +446,9 @@
 
 
     window.onload = function() {
+        console.log("123");
         var user = JSON.parse(sessionStorage.getItem("user"));
+        console.log(user)
         if (user != null) {
             $("#loginAndResister").css("display", "none"); //隐藏div
             var html = `
@@ -450,7 +465,26 @@
                             <a onclick="logout()" class="login_order ">注销登录</a>
                         </div> `
             $("#userInf").html(html);
+        } else {
+            $("#person").attr("href", "login.html");
+            console.log("123");
         }
+    }
+
+    function toSearch() {
+        window.location.href = 'search.html';
+    }
+
+    function reload() {
+        window.location.reload(true);
+    }
+
+    function searchGoods() {
+        var searchInfo = $("#searchInput").val();
+
+        sessionStorage.setItem("searchInfo", searchInfo);
+        window.location.href = "search.html"
+
     }
 </script>
 
