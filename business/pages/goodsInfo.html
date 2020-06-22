@@ -1,0 +1,291 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!--字体图标-->
+    <link href="../../javaex/pc/css/icomoon.css" rel="stylesheet" />
+    <!--动画-->
+    <link href="../../javaex/pc/css/animate.css" rel="stylesheet" />
+    <!--骨架样式-->
+    <link href="../../javaex/pc/css/common.css" rel="stylesheet" />
+    <!--皮肤（缇娜）-->
+    <link href="../../javaex/pc/css/skin/tina.css" rel="stylesheet" />
+    <!--jquery，不可修改版本-->
+    <script src="../../javaex/pc/lib/jquery-1.7.2.min.js"></script>
+    <!--全局动态修改-->
+    <script src="../../javaex/pc/js/common.js"></script>
+    <!--核心组件-->
+    <script src="../../javaex/pc/js/javaex.min.js"></script>
+    <!--表单验证-->
+    <script src="../../javaex/pc/js/javaex-formVerify.js"></script>
+    <link href="../../css/index.css" rel="stylesheet" />
+    <title></title>
+
+</head>
+
+<body>
+    <!--主体内容-->
+    <div class="list-content">
+        <!--块元素-->
+        <div class="block">
+            <!--页面有多个表格时，可以用于标识表格-->
+            <h2>商品管理</h2>
+            <!--右上角的返回按钮-->
+            <a href="javascript:history.back();">
+                <button class="button indigo radius-3" style="position: absolute;right: 20px;top: 16px;"><span class="icon-arrow_back"></span> 返回</button>
+            </a>
+
+            <!--正文内容-->
+            <div class="main">
+                <!--表格上方的搜索操作-->
+                <div class="admin-search">
+                    <div class="input-group">
+                        <input type="text" class="text" placeholder="商品名/价格/类别" />
+                        <button class="button blue">搜索</button>
+                    </div>
+                </div>
+
+                <!--表格上方的操作元素，添加、删除等-->
+                <div class="operation-wrap">
+                    <div class="buttons-wrap">
+                        <button id="add" class="button blue radius-3"><span class="icon-plus"></span> 添加</button>
+                        <button class="button red radius-3"><span class="icon-close2"></span> 删除</button>
+                    </div>
+                </div>
+
+                <table id="table" class="table color2">
+                    <thead>
+                        <tr>
+                            <th class="checkbox"><input type="checkbox" class="fill listen-1" /> </th>
+                            <th>商品名</th>
+                            <th>价格</th>
+                            <th>图片</th>
+                            <th>库存</th>
+                            <th>详细信息</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="goodInfo">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var business;
+    window.onload = function() {
+        business = JSON.parse(sessionStorage.getItem("business"));
+        console.log(business);
+        console.log(business.businessId)
+        $.ajax({
+            url: "http://127.0.0.1:8080/ShopSystem/getAllGoods",
+            data: {
+                "businessId": business.businessId
+            },
+            dataType: "json",
+            type: "post",
+            async: false,
+            cache: false,
+            success: function(res) {
+                if (res.code == "SUCCESS") {
+                    sessionStorage.setItem("goodsList", res.goodsList)
+                    console.log(res.goodsList)
+                    var html = "";
+                    var goodsList = JSON.parse(res.goodsList);
+                    for (var i = 0; i < goodsList.length; i++) {
+                        html = html + creategoodInfo(goodsList[i]);
+                    }
+                    $("#goodInfo").html(html);
+
+                } else {
+                    javaex.alert({
+                        content: res.code
+                    });
+
+                }
+                javaex.render();
+            },
+            error: function() {
+                javaex.alert({
+                    content: "有错误发生！"
+                });
+
+            }
+        });
+    }
+
+
+
+    function creategoodInfo(good) {
+        return `<tr>
+                    <td class="checkbox"><input type="checkbox" class="fill listen-1-2" /> </td>
+                    <td>` + good.name + `</td>
+                    <td>` + good.price + `</td>
+                    <td><a onclick="showImage('` + good.imgUrl + `')">` + good.imgUrl + `</a></td>
+                    <td>` + good.stock + `</td>
+                    <td>` + good.info + `</td>
+                    <td> <button class="button yellow" onclick="update(` + good.goodId + `)">修改</button> </td >
+                </tr>`
+
+    }
+
+    // obj为当前点击的元素对象
+    function showImage(url) {
+        console.log(url)
+        javaex.dialog({
+            type: "image", // 弹出层类型
+            url: "http://127.0.0.1:8080/ShopSystem/images/" + url // 图片地址
+        });
+    }
+
+    $("#add").click(function() {
+        javaex.alert({
+            content: `
+                <div class="form-item">
+                    <span class="form-txt">商品名：</span>
+                    <input type="text" class="form-input original" id="name" name="loginName" placeholder="请输入商品名" data-type="必填" error-pos="32" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">价格：</span>
+                    <input type="text" class="form-input original" id="price" placeholder="请输入价格" data-type="必填" error-pos="32" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">商品图片：</span>
+                    <a href="javascript:;" class="file-container button indigo">上传
+                            <input type="file" class="file" id="upload" />
+                    </a>
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">库存：</span>
+                    <input type="number" class="form-input original" id="stock" placeholder="请输入库存" data-type="必填" error-pos="32" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">详细信息：</span>
+                    <input type="text" class="form-input original" id="info" placeholder="请输入详细信息" data-type="必填" error-pos="32" />
+                </div>
+            `,
+            width: 500,
+            title: "添加商品",
+            callback: "addGoods()"
+        });
+        javaex.render();
+        console.log(123)
+    });
+
+    var imgUrl = "";
+    javaex.upload({
+        type: "file",
+        url: "http://127.0.0.1:8080/ShopSystem/uploadGoodsImage", // 请求路径
+        id: "upload", // <input type="file" />的id
+        param: "file", // 参数名称，Spring中与MultipartFile的参数名保持一致
+        callback: function(rtn) {
+            console.log(rtn);
+            if (rtn.code == "000000") {
+                imgUrl = rtn.imgUrl;
+            } else {
+                javaex.optTip({
+                    content: "上传失败",
+                    type: "error"
+                });
+            }
+        }
+    });
+    var business;
+
+    function addGoods() {
+        business = JSON.parse(sessionStorage.getItem("business"));
+        var name = $("#name").val();
+        var price = $("#price").val();
+        var url = imgUrl;
+        var stock = $("#stock").val();
+        var info = $("#info").val();
+        javaex.optTip({
+            content: "数据提交中，请稍候...",
+            type: "submit"
+        });
+        $.ajax({
+            url: "http://127.0.0.1:8080/ShopSystem/addGoods",
+            data: {
+                "businessId": business.businessId,
+                "name": name,
+                "price": price,
+                "stock": stock,
+                "info": info,
+                "imgUrl": url
+            },
+            dataType: "json",
+            type: "post",
+            async: false,
+            cache: false,
+            success: function(res) {
+                console.log(res)
+                if (res.code == "SUCCESS") {
+                    javaex.optTip({
+                        content: "操作成功",
+                        type: "success"
+                    });
+                    javaex.alert({
+                        content: "添加成功！"
+                    });
+                } else {
+                    javaex.optTip({
+                        content: "操作失败",
+                        type: "error"
+                    });
+                    javaex.alert({
+                        content: res.code
+                    });
+                }
+            },
+            error: function() {
+                javaex.optTip({
+                    content: "操作失败",
+                    type: "error"
+                });
+                javaex.alert({
+                    content: "操作失败，有错误发生"
+                });
+
+            }
+        })
+    }
+
+    function update(id) {
+
+        javaex.alert({
+            content: `
+                <div class="form-item">
+                    <span class="form-txt">商品名：</span>
+                    <input type="text" class="form-input original" id="name" name="loginName" placeholder="请输入商品名" data-type="必填" error-pos="32" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">价格：</span>
+                    <input type="text" class="form-input original" id="price" placeholder="请输入价格" data-type="必填" error-pos="32" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">商品图片：</span>
+                    <a href="javascript:;" class="file-container button indigo">上传
+                            <input type="file" class="file" id="upload" />
+                    </a>
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">库存：</span>
+                    <input type="number" class="form-input original" id="stock" placeholder="请输入库存" data-type="必填" error-pos="32" />
+                </div>
+                <div class="form-item">
+                    <span class="form-txt">详细信息：</span>
+                    <input type="text" class="form-input original" id="info" placeholder="请输入详细信息" data-type="必填" error-pos="32" />
+                </div>
+            `,
+            width: 500,
+            title: "添加商品",
+            callback: "addGoods()"
+        });
+        javaex.render();
+        console.log(123)
+    }
+</script>
+
+</html>

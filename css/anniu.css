@@ -217,3 +217,47 @@
     width: 100%;
     transition: all ease 800ms;
 }
+
+.bt6 {
+    height: 35px;
+    padding: 0 2em;
+    background-color: gray;
+    color: black;
+    border: none;
+    outline: none;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all ease 800ms;
+    width: 120px;
+    position: relative;
+}
+
+.bt6:hover {
+    background-color: #3598FE;
+    color: red;
+}
+
+.bt6:before,
+.bt6:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: red;
+    transition: all ease 400ms;
+}
+
+.bt6:after {
+    top: inherit;
+    right: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.bt6:hover:after,
+.bt6:hover:before {
+    width: 100%;
+    transition: all ease 800ms;
+}

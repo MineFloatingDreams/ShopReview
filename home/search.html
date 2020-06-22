@@ -111,7 +111,7 @@
                         <div class="clear"></div>
 
                         <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes" id="goodsList">
-                            <h1 style="color:orangered;font-size: 30px;text-align: center;">未找到商品!</h1>
+                            <h1 style="color:orangered;font-size: 30px;text-align: center;">正在搜索!</h1>
                         </ul>
 
                     </div>
@@ -213,7 +213,7 @@
     }
 
     function toMyOrder() {
-
+        window.location.href = "/person/order.html"
     }
     var user
     window.onload = function() {
@@ -237,6 +237,7 @@
 
         } else {
             $("#person").attr("href", "login.html");
+            $("#mc-menu-hd").attr("href", "login.html");
         }
         searchInput = sessionStorage.getItem("searchInfo");
         console.log(searchInput)
