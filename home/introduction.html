@@ -28,7 +28,7 @@
     <link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
     <link type="text/css" href="../css/optstyle.css" rel="stylesheet" />
     <link type="text/css" href="../css/style.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="../css/anniu.css">
     <script type="text/javascript" src="../basic/js/jquery-1.7.min.js"></script>
     <script type="text/javascript" src="../basic/js/quick_links.js"></script>
 
@@ -207,6 +207,10 @@
                                                 <input id="add" onclick="addNum()" class="am-btn am-btn-default" name="" type="button" value="+" />
 
                                                 <span id="Stock" class="tb-hidden">库存<span class="stock" id="info4">10</span>件</span>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button class="bt6"><a id="LikBasket" title="加入购物车" href="#" onclick="addtoCart()"><i></i>加入购物车</a></button>
+
                                             </dd>
 
                                         </div>
@@ -231,20 +235,10 @@
             </div>
 
             <div class="pay">
-                <div class="pay-opt">
-                    <a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
-                    <a><span class="am-icon-heart am-icon-fw">收藏</span></a>
 
-                </div>
+
                 <li>
-                    <div class="clearfix tb-btn tb-btn-buy theme-login">
-                        <a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="clearfix tb-btn tb-btn-basket theme-login">
-                        <a id="LikBasket" title="加入购物车" href="#" onclick="addtoCart()"><i></i>加入购物车</a>
-                    </div>
+
                 </li>
             </div>
 
@@ -253,11 +247,6 @@
         <div class="clear"></div>
 
     </div>
-
-
-
-
-
 
 
 
@@ -404,8 +393,8 @@
         }
     }
 
-    function toIndex() {
-        window.location.href = "index.html"
+    function toMyCart() {
+        window.location.href = "shopcart.html"
     }
 
     function addtoCart() {
@@ -432,7 +421,7 @@
 
                     javaex.alert({
                         content: "添加成功",
-                        callback: "toIndex()"
+                        callback: "toMyCart()"
                     });
 
                 } else {

@@ -114,7 +114,7 @@
 
             <tr class="item-list">
                 <div class="bundle  bundle-last" id="allGoods">
-                    <h2>未查询到购物车信息</h2>
+                    <h2>正在获取购物车信息</h2>
                 </div>
             </tr>
         </div>
@@ -137,7 +137,7 @@
                     <strong class="price">¥<em id="J_Total">0.00</em></strong>
                 </div>
                 <div class="btn-area">
-                    <a href="pay.html" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+                    <a id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
                         <span onclick="getAll()">结&nbsp;算</span></a>
                 </div>
             </div>
@@ -166,7 +166,7 @@
     var user;
     window.onload = function() {
         user = JSON.parse(sessionStorage.getItem("user"));
-        console.log(user)
+        // // console.log(user)
         if (user != null) {
             $("#loginAndResister").css("display", "none"); //隐藏div
         } else {
@@ -188,13 +188,13 @@
             timeout: 10000,
             async: true,
             success: function(response) {
-                console.log(response);
+                // console.log(response);
 
                 if (response.code == "SUCCESS") {
                     var goodsList = JSON.parse(response.goodsList);
                     var numList = JSON.parse(response.cartList);
-                    console.log(goodsList)
-                    console.log(numList)
+                    // console.log(goodsList)
+                    // console.log(numList)
                     var myHtml = "";
                     for (var i = 0; i < goodsList.length; i++) {
 
@@ -233,8 +233,8 @@
     }
 
     function createCarts(goods, cart) {
-        console.log(goods);
-        console.log(cart);
+        // console.log(goods);
+        // console.log(cart);
         if (user != null) {
             return `
             <br>
@@ -306,14 +306,15 @@
 
         } else {
             $("#person").attr("href", "login.html");
-            console.log("123");
+            $("#mc-menu-hd").attr("href", "login.html");
+            // console.log("123");
         }
 
     }
     var selected = [];
 
     function addTotal(price, id) {
-        console.log($("#check_" + id));
+        // console.log($("#check_" + id));
         var check = $("#check_" + id);
         if (check.is(':checked')) {
             selected.push(id);
@@ -330,7 +331,7 @@
         }
         $("#J_Total").text(total)
         $("#J_SelectedItemsCount").text(num)
-        console.log(1)
+            // console.log(1)
     }
 
     function reload() {
@@ -338,7 +339,7 @@
     }
 
     function del(id) {
-        console.log(id)
+        // console.log(id)
         javaex.optTip({
             content: "数据提交中，请稍候...",
             type: "submit"
@@ -356,9 +357,13 @@
             timeout: 10000,
             async: true,
             success: function(response) {
-                console.log(response);
+                // console.log(response);
 
                 if (response.code == "SUCCESS") {
+                    javaex.optTip({
+                        content: "操作成功",
+                        type: "success"
+                    });
                     javaex.alert({
                         content: "删除成功",
                         callback: "reload()"
@@ -396,6 +401,18 @@
     }
 
     function getAll() {
+        sessionStorage.setItem("selected", JSON.stringify(selected));
+
+        if (JSON.stringify(selected) == "[]") {
+            javaex.alert({
+                content: "你还没有选择商品呢"
+            });
+        } else {
+            window.location.href = "pay.html";
+        }
+
+
+
 
     }
 </script>
