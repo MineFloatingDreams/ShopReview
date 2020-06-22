@@ -22,11 +22,12 @@
     <style>
         .file-container .cover {
             width: 320px;
-            height: 100px;
+            height: 140px;
         }
         
         .file-container .cover img {
             margin: 20px auto;
+            height: 140px;
         }
     </style>
 </head>
@@ -87,9 +88,9 @@
         uploadText: "上传营业执照",
         callback: function(rtn) {
             console.log(rtn);
-            $("#container img").attr("src", rtn.imgUrl);
+            $("#container img").attr("src", "http://127.0.0.1:8080/ShopSystem/business/" + rtn.imgUrl);
             if (rtn.code == "000000") {
-                $("#container img").attr("src", rtn.imgUrl);
+                $("#container img").attr("src", "http://127.0.0.1:8080/ShopSystem/business/" + rtn.imgUrl);
                 imgUrl = rtn.imgUrl;
             } else {
                 javaex.optTip({
