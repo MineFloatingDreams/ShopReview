@@ -43,17 +43,17 @@
                 <!--顶部导航条 -->
                 <div class="am-container header">
                     <ul class="message-l">
+
+                    </ul>
+                    <ul class="message-r">
                         <div class="topMessage home">
                             <div class="menu-hd"><a href="/home/index.html" target="_top" class="h">商城首页</a></div>
                         </div>
-                    </ul>
-                    <ul class="message-r">
-
                         <div class="topMessage my-shangcheng">
-                            <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                            <div class="menu-hd MyShangcheng"><a id="person" href="information.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                         </div>
                         <div class="topMessage mini-cart">
-                            <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+                            <div class="menu-hd"><a id="mc-menu-hd" href="/home/shopcart.html" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
                         </div>
 
                     </ul>
@@ -228,59 +228,69 @@
     var user;
     window.onload = function() {
         user = JSON.parse(sessionStorage.getItem("user"));
-        var name;
-        $.ajax({
-            type: "post",
-            //后端需要调用的地址
-            url: "http://127.0.0.1:8080/ShopSystem/getAddress",
-            dataType: "json",
-            data: {
-                "userId": user.userId
-            },
-            // contentType: "json/application",
-            //设置超时
-            timeout: 10000,
-            async: true,
-            success: function(response) {
-                // console.log(response);
-                if (response.code == "SUCCESS") {
-                    addressList = JSON.parse(response.addressList)
-                    name = response.name;
-                    var html = "";
-                    for (var i = 0; i < addressList.length; i++) {
-                        var html = html + createAllAddresses(addressList[i], name, user)
+        if (user != null) {
+            var name;
+            $.ajax({
+                type: "post",
+                //后端需要调用的地址
+                url: "http://127.0.0.1:8080/ShopSystem/getAddress",
+                dataType: "json",
+                data: {
+                    "userId": user.userId
+                },
+                // contentType: "json/application",
+                //设置超时
+                timeout: 10000,
+                async: true,
+                success: function(response) {
+                    // console.log(response);
+                    if (response.code == "SUCCESS") {
+                        addressList = JSON.parse(response.addressList)
+                        name = response.name;
+                        var html = "";
+                        for (var i = 0; i < addressList.length; i++) {
+                            var html = html + createAllAddresses(addressList[i], name, user)
+                        }
+                        $("#address").html(html);
+                        $("#user-name").val(name);
+                        $("#user-phone").val(user.phone);
+                        javaex.optTip({
+                            content: "信息获取成功",
+                            type: "success"
+                        });
                     }
-                    $("#address").html(html);
-                    $("#user-name").val(name);
-                    $("#user-phone").val(user.phone);
-                    javaex.optTip({
-                        content: "信息获取成功",
-                        type: "success"
-                    });
-                }
 
-            },
-            error: function(data) {
-                javaex.optTip({
-                    content: "信息获取失败",
-                    type: "error"
-                });
-            },
-            //调用执行后调用的函数
-            complete: function(XMLHttpRequest, textStatus) {
-                if (textStatus == 'timeout') {
-                    uploadAjax.abort(); //取消请求
-                    //超时提示：请求超时，请重试
+                },
+                error: function(data) {
                     javaex.optTip({
-                        content: "操作失败",
+                        content: "信息获取失败",
                         type: "error"
                     });
-                    javaex.alert({
-                        content: "请求超时，请重试"
-                    });
+                },
+                //调用执行后调用的函数
+                complete: function(XMLHttpRequest, textStatus) {
+                    if (textStatus == 'timeout') {
+                        uploadAjax.abort(); //取消请求
+                        //超时提示：请求超时，请重试
+                        javaex.optTip({
+                            content: "操作失败",
+                            type: "error"
+                        });
+                        javaex.alert({
+                            content: "请求超时，请重试"
+                        });
+                    }
                 }
-            }
-        });
+            });
+
+
+        } else {
+            $("#person").attr("href", "/home/login.html");
+            console.log("123");
+            $("#mc-menu-hd").attr("href", "/home/login.html");
+        }
+
+
     }
 
     function addAddress() {

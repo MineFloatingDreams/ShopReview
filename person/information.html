@@ -41,12 +41,12 @@
 
                 <div class="am-container header">
                     <ul class="message-l">
+
+                    </ul>
+                    <ul class="message-r">
                         <div class="topMessage home">
                             <div class="menu-hd"><a href="/home/index.html" target="_top" class="h">商城首页</a></div>
                         </div>
-                    </ul>
-                    <ul class="message-r">
-
                         <div class="topMessage my-shangcheng">
                             <div class="menu-hd MyShangcheng"><a id="person" href="information.html" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                         </div>
@@ -56,16 +56,13 @@
 
                     </ul>
                 </div>
-
                 <!--悬浮搜索框-->
-
                 <div class="nav white">
                     <br>
                     <br>
                     <br>
                     <br>
                 </div>
-
                 <div class="clear"></div>
             </div>
             </div>
@@ -78,17 +75,14 @@
     <div class="center">
         <div class="col-main">
             <div class="main-wrap">
-
                 <div class="user-info">
                     <!--标题 -->
                     <div class="am-cf am-padding">
                         <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料/个人信息</div>
                     </div>
                     <hr/>
-
                     <!--头像 -->
                     <div class="user-infoPic">
-
                         <div class="filePic">
                             <input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
                             <img class="am-circle am-img-thumbnail" src="../images/getAvatar.do.jpg" alt="" />
@@ -103,14 +97,10 @@
                             </div>
                         </div>
                     </div>
-
                     
                     <!--个人信息 -->
                     <div class="info-main">
                         <form class="am-form am-form-horizontal">
-
-                        
-
                             <div class="am-form-group">
                                 <label for="user-name" class="am-form-label" >姓名</label>
                                 <div class="am-form-content">
@@ -210,6 +200,11 @@
     var birth1;
     window.onload = function() {
         user = JSON.parse(sessionStorage.getItem("user"));
+
+
+
+
+
         
         if (user != null) {
             var html = ` <div><b>用户名：<i>`+user.username+`</i></b></div>
@@ -280,7 +275,12 @@
                 }
             }
         });
+        }else{
+            $("#person").attr("href", "/home/login.html");
+            console.log("123");
+            $("#mc-menu-hd").attr("href", "/home/login.html");
         }
+
     }
 
 
