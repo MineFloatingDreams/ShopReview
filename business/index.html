@@ -92,9 +92,18 @@
     </div>
 </body>
 <script>
+    function toLogin() {
+        window.location.href = "login.html";
+    }
     var business;
     window.onload = function() {
         business = JSON.parse(sessionStorage.getItem("business"));
+        if (business == null) {
+            javaex.alert({
+                content: "请先登录",
+                callback: "toLogin()"
+            })
+        }
         $("#username").html("欢迎您，" + business.username);
     }
 

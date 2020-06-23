@@ -147,8 +147,8 @@
                         totalNum: totalNum, // 总条数，不填时，不显示
                         position: "right",
                         callback: function(rtn) {
-                            console.log("当前选中的页数：" + rtn.pageNum);
-                            console.log("每页显示条数：" + rtn.perPageCount);
+                            // console.log("当前选中的页数：" + rtn.pageNum);
+                            // console.log("每页显示条数：" + rtn.perPageCount);
                             $.ajax({
                                 url: "http://127.0.0.1:8080/ShopSystem/getAllOrders",
                                 data: {
@@ -161,7 +161,7 @@
                                 async: false,
                                 cache: false,
                                 success: function(res) {
-                                    console.log(res)
+                                    // console.log(res)
                                     if (res.code == "SUCCESS") {
                                         javaex.optTip({
                                             content: "操作成功",
@@ -185,7 +185,7 @@
                                             html = html + createordersInfo(orderList[i], goodsList[i], userList[i].username, zhuangtai, dateList[i]);
                                             // console.log(html)
                                         }
-                                        console.log(html)
+                                        // console.log(html)
                                         $("#orderInfo").html(html);
                                         pageCount = res.pageCount;
                                         totalNum = res.totalNum;
@@ -242,9 +242,7 @@
 
 
     function createordersInfo(order, good, userName, zhuangtai, date) {
-        // <td class="checkbox"><input type="checkbox" name="box" value="` + good.goodsId + `" class="fill listen-1-2" /> </td>
         var html = "";
-
         html = html + `<tr>
                     <td>` + good.name + `</td>
                     <td>` + userName + `</td>
@@ -257,7 +255,7 @@
                 `<td> <button class="button yellow" onclick="addLogisticsId(` + order.orderId + `)">发货</button></td >`
         } else if (order.type == 1) {
             html = html + `<td>` + order.logistics + `</td>` +
-                `<td> <button class="button yellow" onclick="update(` + good.goodsId + `)">修改快递单号</button>
+                `<td> <button class="button yellow" onclick="addLogisticsId(` + order.orderId + `)">修改快递单号</button>
                 <button class="button yellow" onclick="gotoLogistics(` + order.logistics + `)">查看物流</button></td >`
         } else {
             html = html + `<td>` + order.logistics + `</td>` +
@@ -276,8 +274,6 @@
             maxHeight: 200,
             callback: "addLogId(" + id + ")"
         });
-
-
     }
 
     function reload() {
@@ -286,7 +282,7 @@
 
     function addLogId(id) {
         var logisticsId = $("#logId").val();
-        console.log(logisticsId)
+        // console.log(logisticsId)
         javaex.optTip({
             content: "数据提交中，请稍候...",
             type: "submit"
@@ -415,9 +411,6 @@
         `;
     }
 
-    function update(id) {
-        alert("快递单号" + id)
-    }
 
     function sousuo() {
         var sousuo = $("#sousuo").val();
