@@ -60,14 +60,13 @@
                                 <td>姓名：</td>
                                 <td id="username">1</td>
                             </tr>
-
                             <tr>
                                 <td>店铺名：</td>
                                 <td id="shopname">1</td>
                             </tr>
                             <tr>
                                 <td>营业执照：</td>
-                                <td id="photo" style="font-size: 13px;">1<button class="button blue empty">下载</button></td>
+                                <td id="photo" style="font-size: 13px;" onclick="showImage()">1</td>
 
                             </tr>
                             <tr>
@@ -75,12 +74,9 @@
                                 <td id="phone">1</td>
                             </tr>
 
-
                         </table>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -91,9 +87,18 @@
             $("#username").html(business.username);
             $("#shopname").html(business.shopName);
             $("#phone").html(business.phone);
-            $("#photo").html((business.photoUrl).replace("http://127.0.0.1:8080/ShopSystem/business/", "") + `<button class="button blue empty" style="margin-left: 150px;">下载</button>`);
+            $("#photo").html((business.photoUrl).replace("http://127.0.0.1:8080/ShopSystem/business/", ""));
 
 
+        }
+
+        // obj为当前点击的元素对象
+        function showImage() {
+            var url = $("#photo").text();
+            javaex.dialog({
+                type: "image", // 弹出层类型
+                url: "http://127.0.0.1:8080/ShopSystem/business/" + url // 图片地址
+            });
         }
     </script>
 
