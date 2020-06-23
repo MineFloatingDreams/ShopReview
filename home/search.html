@@ -332,8 +332,8 @@
                                 success: function(response) {
                                     console.log(response);
                                     if (response.code == "SUCCESS") {
-                                        var goodsList = JSON.parse(response.goodsList);
-                                        var businessList = JSON.parse(response.businessList);
+                                        goodsList = JSON.parse(response.goodsList);
+                                        businessList = JSON.parse(response.businessList);
                                         console.log(goodsList);
                                         pageCount = response.pageCount;
                                         totalNum = response.totalNum;
