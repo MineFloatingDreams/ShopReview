@@ -551,19 +551,11 @@
 `;
     }
 
-    function reload() {
-        window.location.reload(true);
-    }
-
     function getedGoods(id) {
-        javaex.optTip({
-            content: "数据提交中，请稍候...",
-            type: "submit"
-        });
         $.ajax({
             type: "post",
             //后端需要调用的地址
-            url: "http://127.0.0.1:8080/ShopSystem/confirm",
+            url: "http://127.0.0.1:8080/ShopSystem/confirmOrders",
             dataType: "json",
             data: {
                 "orderId": id
@@ -579,8 +571,12 @@
                         content: "操作成功",
                         type: "success"
                     });
+                    javaex.alert({
+                        content: "收货成功",
+                        callback: "reload()"
+                    });
 
-                    reload();
+
                 } else {
                     javaex.optTip({
                         content: "操作失败",
@@ -610,6 +606,10 @@
                 }
             }
         });
+    }
+
+    function reload() {
+        window.location.reload(true);
     }
 
     function searchLogistics(id) {

@@ -539,9 +539,10 @@
                         });
 
                         javaex.alert({
-                            content: "添加成功，请选择收货地址吧"
+                            content: "添加成功，请选择收货地址吧",
+                            callback: "reload()"
                         });
-                        reload();
+
                     }
                 },
                 error: function(data) {

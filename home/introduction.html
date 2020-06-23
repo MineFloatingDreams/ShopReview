@@ -152,10 +152,10 @@
             <!--名称-->
             <div class="tb-detail-hd">
                 <h1 id="info">
-                    良品铺子
+                    未找到商品
                 </h1>
                 <h1 id="info1">
-                    手剥松子218g 坚果炒货 巴西松子
+                    未找到商品
                 </h1>
             </div>
             <div class="tb-detail-list">
@@ -163,7 +163,7 @@
                 <div class="tb-detail-price">
                     <li class="price iteminfo_price">
                         <dt>单价</dt>
-                        <dd><em>¥</em><b class="sys_item_price" id="info2">56.90</b> </dd>
+                        <dd><em>¥</em><b class="sys_item_price" id="info2">未找到商品</b> </dd>
                     </li>
 
 
@@ -175,18 +175,13 @@
 
                 </dl>
                 <div class="clear"></div>
-
-
                 <div class="clear"></div>
-
                 <!--各种规格-->
                 <dl class="iteminfo_parameter sys_item_specpara">
-
                     <dd>
                         <!--操作页面-->
 
                         <div class="theme-popover-mask"></div>
-
                         <div class="theme-popover">
                             <div class="theme-span"></div>
                             <div class="theme-poptit">
@@ -194,11 +189,7 @@
                             </div>
                             <div class="theme-popbod dform">
                                 <form class="theme-signin" name="loginform" action="" method="post">
-
                                     <div class="theme-signin-left">
-
-
-
                                         <div class="theme-options">
                                             <div class="cart-title number">数量</div>
                                             <dd>
@@ -235,8 +226,6 @@
             </div>
 
             <div class="pay">
-
-
                 <li>
 
                 </li>
@@ -361,10 +350,7 @@
                 type: "error"
             });
         }
-
-
-
-
+        javaex.render();
     }
 
     var stock = JSON.parse(sessionStorage.getItem("goods")).stock;
@@ -397,9 +383,20 @@
         window.location.href = "shopcart.html"
     }
 
+    function toLogin() {
+        window.location.href = "login.html"
+    }
+
     function addtoCart() {
         var goodsId = JSON.parse(sessionStorage.getItem("goods")).goodsId;
+        if (sessionStorage.getItem("user") == null) {
+            javaex.alert({
+                content: "你还没有登录",
+                callback: "toLogin()"
+            });
+        }
         var userId = JSON.parse(sessionStorage.getItem("user")).userId;
+
         var num = $("#info3").val();
         $.ajax({
             type: "post",

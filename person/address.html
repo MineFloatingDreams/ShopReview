@@ -323,9 +323,9 @@
                         });
 
                         javaex.alert({
-                            content: "添加成功"
+                            content: "添加成功",
+                            callback: "reload()"
                         });
-                        reload();
                     }
                 },
                 error: function(data) {
@@ -380,9 +380,9 @@
                         type: "success"
                     });
                     javaex.alert({
-                        content: "添加成功"
+                        content: "删除成功",
+                        callback: "reload()"
                     });
-                    reload();
                 }
             },
             error: function(data) {

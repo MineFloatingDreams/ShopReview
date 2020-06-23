@@ -132,7 +132,7 @@
                     type: "error"
                 });
                 javaex.alert({
-                    content: "注册失败，有错误发生"
+                    content: "请求超时，请重试"
                 });
 
             }
@@ -150,11 +150,11 @@
         console.log(business.businessId);
         $("#page").empty();
         javaex.optTip({
-            content: "数据提交中，请稍候...",
+            content: "数据获取中，请稍候...",
             type: "submit"
         });
         $.ajax({
-            url: "http://127.0.0.1:8080/ShopSystem//goods/getAllGoods",
+            url: "http://127.0.0.1:8080/ShopSystem/goods/getAllGoods",
             data: {
                 "businessId": business.businessId,
                 "perPageCount": perPageCount,
@@ -193,7 +193,7 @@
                             console.log("当前选中的页数：" + rtn.pageNum);
                             console.log("每页显示条数：" + rtn.perPageCount);
                             $.ajax({
-                                url: "http://127.0.0.1:8080/ShopSystem//goods/getAllGoods",
+                                url: "http://127.0.0.1:8080/ShopSystem/goods/getAllGoods",
                                 data: {
                                     "businessId": business.businessId,
                                     "perPageCount": rtn.perPageCount,
@@ -296,7 +296,7 @@
             type: "submit"
         });
         $.ajax({
-            url: "http://127.0.0.1:8080/ShopSystem//goods/searchByName",
+            url: "http://127.0.0.1:8080/ShopSystem/goods/searchByName",
             data: {
                 "name": sousuo,
                 "perPageCount": perPageCount,
@@ -335,7 +335,7 @@
                             console.log("当前选中的页数：" + rtn.pageNum);
                             console.log("每页显示条数：" + rtn.perPageCount);
                             $.ajax({
-                                url: "http://127.0.0.1:8080/ShopSystem//goods/searchByName",
+                                url: "http://127.0.0.1:8080/ShopSystem/goods/searchByName",
                                 data: {
                                     "name": sousuo,
                                     "perPageCount": rtn.perPageCount,
