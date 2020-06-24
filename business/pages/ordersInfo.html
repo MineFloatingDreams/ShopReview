@@ -326,20 +326,6 @@
                     content: "操作失败",
                     type: "error"
                 });
-            },
-            //调用执行后调用的函数
-            complete: function(XMLHttpRequest, textStatus) {
-                if (textStatus == 'timeout') {
-                    uploadAjax.abort(); //取消请求
-                    //超时提示：请求超时，请重试
-                    javaex.optTip({
-                        content: "操作失败",
-                        type: "error"
-                    });
-                    javaex.alert({
-                        content: "请求超时，请重试"
-                    });
-                }
             }
         });
     }
